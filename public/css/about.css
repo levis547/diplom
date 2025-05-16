@@ -1,0 +1,94 @@
+.about-container img{
+    width: 100%;
+    height: 100%;
+}
+.about-container__main-top{
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+.about-container__main-top img{
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 30px;
+}
+.about-container__main-top p{
+    color: var(--brown);
+}
+.about-container__main-top-img, .about-container__main-top-text{
+    flex: 1;
+}
+.about-container__main-top-text > p{
+    font-size: 25px;
+}
+.about-container__main-top-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 25px;
+}
+.about-container__main-top-item p{
+    text-align: center;
+}
+.about-container__main-top-item p:first-child{
+    font-size: 65px;
+}
+.about-container__main-thumb{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+.about-container__main-thumb-item{
+    flex: 1;
+}
+.about-container__main-thumb-item img{
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 30px;
+}
+.about-container__smi-tab{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-bottom: solid 1px var(--brown);
+}
+.about-container__smi-tab-item.active{
+    border-bottom: solid 2px var(--brown);
+}
+.about-container__smi-tab a{
+    color: var(--brown);
+    font-size: 25px;
+}
+.about-container__smi-content{
+    display: flex;
+    gap: 30px;
+}
+.about-container__smi-content-item{
+    flex: 1;
+}
+.about-container__main-top-text p{
+    font-family: "titilliumwebrusbydaymarius_rg";
+}
+@media (max-width: 1000px){
+    .about-container__main-top{
+        flex-direction: column;
+    }
+    .about-container__main-thumb{
+        display: none;
+    }
+    .about-container__main-top-text > p{
+        font-size: 15px;
+    }
+    .about-container__main-top-item p:first-child {
+        font-size: 35px;
+    }
+    .about-container__smi-tab{
+        flex-direction: column;
+        align-items: unset;
+        border-bottom: unset;
+    }
+    .about-container__smi-content {
+        flex-direction: column;
+    }
+}

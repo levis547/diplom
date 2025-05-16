@@ -1,0 +1,175 @@
+.hystmodal__window{
+    border-radius: 15px;
+}
+.hystmodal__review-container{
+    padding: 0 40px;
+}
+.hystmodal__review-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.modal__close-btn{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background: var(--brown);
+    mask-image: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.63205 0.870267L0.577393 1.92493L13.5226 14.8701L14.5773 13.8155L1.63205 0.870267Z' fill='black'/%3E%3Cpath d='M13.5214 0.86968L0.578491 13.8171L1.63334 14.8716L14.5763 1.92416L13.5214 0.86968Z' fill='black'/%3E%3C/svg%3E%0A");
+    transition: .3s;
+}
+.modal__close-btn:hover{
+    transition: .3s;
+    background: var(--red);
+}
+.hystmodal__review-header__title > p{
+    font-size: 45px;
+    color: var(--black);
+    font-family: "titilliumwebrusbydaymarius_light";
+}
+.hystmodal__review-header__title > p > span{
+    color: var(--red);
+}
+
+.hystmodal__review-main{
+    background: var(--background);
+    padding: 20px 0;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+}
+.hystmodal__review-container > p{
+    font-size: 25px;
+    color: var(--brown);
+    font-family: "titilliumwebrusbydaymarius_rg";
+
+}
+.hystmodal__review-container > span{
+    font-size: 22px;
+    color: var(--brown);
+    font-family: "titilliumwebrusbydaymarius_ex";
+}
+.hystmodal__review-main__form{
+    margin: 20px 0;
+}
+.hystmodal__review-main__form-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.form-container__star-main{
+    margin: 0 0 0 30px;
+}
+.hystmodal__review-main__form-header > input{
+    color: var(--brown);
+    font-family: "titilliumwebrusbydaymarius_ex";
+    padding: 20px 20px;
+    flex: 1;
+    font-size: 15px;
+    border: none;
+    outline: none;
+}
+.form-container__star{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+    gap: 10px;
+}
+.form-container__star input {
+    display: none;
+}
+
+.form-container__star label {
+    background: var(--brown-light);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-image: url("data:image/svg+xml,%3Csvg width='40' height='37' viewBox='0 0 40 37' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 1.61804L24.0148 13.9742L24.127 14.3197H24.4903H37.4823L26.9715 21.9562L26.6776 22.1697L26.7899 22.5152L30.8046 34.8713L20.2939 27.2348L20 27.0213L19.7061 27.2348L9.19535 34.8713L13.2101 22.5152L13.3224 22.1697L13.0285 21.9562L2.51771 14.3197H15.5097H15.873L15.9852 13.9742L20 1.61804Z' fill='white' stroke='black'/%3E%3C/svg%3E%0A");
+    transition:  0.3s;
+}
+
+/* Подсвечиваем звезды при наведении */
+.form-container__star label:hover,
+.form-container__star label:hover ~ label {
+    background: var(--brown);
+    transition:  0.3s;
+}
+
+/* Подсвечиваем звезды при выборе */
+.form-container__star input:checked ~ label {
+    background: var(--brown);
+    transition:  0.3s;
+}
+.form-container__star-title{
+    color: var(--brown);
+    font-family: "titilliumwebrusbydaymarius_ex";
+    font-size: 15px;
+    text-align: right;
+}
+.hystmodal__review-main__form-footer{
+    margin: 20px 0;
+}
+.hystmodal__review-main__form-footer > textarea{
+    resize: none;
+    outline: none;
+    border: none;
+    color: var(--brown);
+    padding: 10px 20px;
+    font-family: "titilliumwebrusbydaymarius_ex";
+    font-size: 15px;
+    width: 100%;
+    height: 180px;
+}
+.hystmodal__review-main__form-action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.hystmodal__review-main__form-action > p{
+    flex: 1;
+    color: var(--brown);
+    font-size: 22px;
+    font-family: "titilliumwebrusbydaymarius_light";
+
+}
+.hystmodal__review-main__form-action > button{
+    cursor: pointer;
+    padding: 5px 40px;
+    color: var(--brown);
+    font-family: "titilliumwebrusbydaymarius_ex";
+    border: none;
+    background: var(--white);
+    border-radius: 15px;
+    font-size: 22px;
+    transition:  0.3s;
+}
+.hystmodal__review-main__form-action > button:hover{
+
+    background: var(--brown-light);
+    color: var(--white);
+    transition:  0.3s;
+}
+
+
+
+
+
+
+
+@media (max-width: 500px) {
+    .hystmodal__review-main__form-footer{
+        margin: 0 0 20px 0;
+    }
+    .form-container__star-main {
+        margin: 20px 0;
+    }
+    .form-container__star-title{
+        text-align: center;
+    }
+}
