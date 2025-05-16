@@ -62,8 +62,22 @@
 
         // Получаем CSRF токен из мета-тега
         let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var notyf = new Notyf();
-        // Получаем данные из формы
+        const notyf = new Notyf({
+            duration: 5000,
+            types: [
+                {
+                    type: 'success',
+                    background: '#482712',
+                    className: 'notyf-success',
+                },
+                {
+                    type: 'error',
+                    background: '#CD302E',
+                    className: 'notyf-success',
+
+                }
+            ]
+        });
         const formData = new FormData(this);
 
         // Получаем значения полей формы
