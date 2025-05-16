@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Appointment;
 
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Date;
@@ -38,7 +39,7 @@ class AppointmentResource extends ModelResource
             Text::make('Телефон', 'phone')->required(),
             Text::make('E-mail', 'email'),
             Text::make('Комментарий', 'comment'),
-            BelongsTo::make('Услуга', 'service', 'name',ServiceResource::class)->required(),
+            BelongsToMany::make('Услуги', 'service', 'name')->onlyCount(),
             BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class)->required(),
             Date::make('Дата и время', 'appointment_datetime')
         ];
@@ -57,7 +58,6 @@ class AppointmentResource extends ModelResource
                 Text::make('Телефон', 'phone')->required(),
                 Text::make('E-mail', 'email'),
                 Text::make('Комментарий к записи', 'comment'),
-                BelongsTo::make('Услуга', 'service', 'name',ServiceResource::class)->required(),
                 BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class)->required(),
 
 
@@ -77,9 +77,9 @@ class AppointmentResource extends ModelResource
             Text::make('Телефон', 'phone')->required(),
             Text::make('E-mail', 'email'),
             Text::make('Комментарий к записи', 'comment'),
-            BelongsTo::make('Услуга', 'service', 'name',ServiceResource::class)->required(),
-            BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class)->required(),
 
+            BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class)->required(),
+            BelongsToMany::make('Услуги', 'service', 'name')->inLine(', '),
 
         ];
     }

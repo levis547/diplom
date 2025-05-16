@@ -167,8 +167,22 @@ class ServicesController extends Controller
 
         return view('services.index', compact('categories', 'hairServices', 'nailServices', 'cosmetologyServices'));
     }
+    public function appointment_count(Request $request)
+    {
+        $validated = $request->validate([
+            'tel' => 'required|string'
+        ]);
 
+        // Удаляем всё, кроме цифр
+        $normalizedTel = preg_replace('/\D+/', '', $validated['tel']);
 
+        // Предполагаем, что в БД номера хранятся в любом формате — тоже очищаем перед сравнением
+        $appointments = Appointment::all()->filter(function ($appointment) use ($normalizedTel) {
+            return preg_replace('/\D+/', '', $appointment->phone) === $normalizedTel;
+        });
+
+        return response()->json(['count' => $appointments->count()]);
+    }
 
 }
 

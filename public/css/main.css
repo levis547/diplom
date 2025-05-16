@@ -37,7 +37,7 @@
 .index-whyWe__content-list{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 50px;
 }
 .index-whyWe__content-item{
     display: flex;
@@ -316,6 +316,14 @@
 }
 .index-contacts__container a p{
     text-wrap: nowrap;
+}
+.acceptModal-list{
+    padding-left: 20px;
+    font-family: baskerville;
+    color: var(--brown);
+}
+#acceptModal-content{
+    margin-bottom: 20px;
 }
 @media (max-width: 900px){
     .index-services__top-section, .index-services__bottom-section{

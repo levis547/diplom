@@ -48,7 +48,6 @@ class ServiceResource extends ModelResource
                 'Ногтевая студия' => 'Ногтевая студия',
 
             ])->required(),
-            BelongsTo::make('Категория услуги', 'category', 'name', ServicesCategoryResource::class)->required(), // 'category' - это метод связи в модели Service
             Text::make('Цена', 'price')->required(),
             Text::make('Длительность услуги', 'duration')->required(),
         ];

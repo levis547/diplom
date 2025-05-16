@@ -88,12 +88,40 @@
                             </div>
                             <div class="modal__button">
                                 <button id="back-step-btn-step-four" class="appointment__button">Назад</button>
-                                <button type="submit" class="appointment__button">Записаться</button>
+                                <button type="submit" class="appointment__button">Подтвердить</button>
                             </div>
                         </form>
                     </div>
 
 
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="hystmodal" id="acceptModal" aria-hidden="true">
+    <div class="hystmodal__wrap">
+        <div class="hystmodal__window" role="dialog" aria-modal="true" style="width: 750px;">
+            <div class="hystmodal__appointmen-header hystmodal__appointment-container">
+                <div class="hystmodal__appointment-header__title-header">
+                    <div class="hystmodal__appointmen-header__title">
+                        <p>
+                             Проверьте <span>данные</span>
+                        </p>
+                    </div>
+                    <div data-hystclose class="modal__close-btn"></div>
+                </div>
+            </div>
+            <div class="hystmodal__appointment-main">
+                <div class="hystmodal__appointment-container">
+                    <div id="acceptModal-content">
+
+                    </div>
+                    <div class="modal__button">
+                        <button id="acceptModal-back" class="appointment__button">Назад</button>
+                        <button id="acceptModal-accept" class="appointment__button">Записаться</button>
+                    </div>
                 </div>
             </div>
 
@@ -242,13 +270,11 @@
                     </div>`;
                     });
                     $(tabId).html(content);
-                    // Убираем обработчик для добавления класса 'selected'
+
                     $(tabId).find('.service-container').on('click', function() {
                         selectedServiceId = $(this).data('id');
                         serviceDuration = $(this).data('duration');
-                        // Логирование выбранной услуги (если нужно)
-                        // console.log("Выбранная услуга ID:", selectedServiceId);
-                        // console.log("Длительность услуги:", serviceDuration, "мин.");
+
                     });
                 },
                 error: function() {
@@ -296,35 +322,33 @@
         }
 
         $('#tabs-1, #tabs-2, #tabs-3').on('click', '.service-container', function() {
-            let serviceId = $(this).data('id');  // Получаем ID услуги
-            let serviceName = $(this).find('.services__info p').text();  // Название услуги
-            let servicePrice = $(this).find('.services__info-price span').text();  // Цена услуги
-            let serviceDuration = $(this).data('duration');  // Длительность услуги
+            let serviceId = $(this).data('id');
+            let serviceName = $(this).find('.services__info p').text();
+            // очистка имени, если вдруг
+            serviceName = serviceName.replace(/(\d+\s*час[а-я]*|\d+\s*мин\.?)/g, '').trim();
 
-            // Проверяем, была ли уже выбрана эта услуга
+            let servicePrice = $(this).find('.services__info-price span').text();
+            let serviceDuration = $(this).data('duration');
+
             let isAlreadySelected = selectedServices.some(service => service.id === serviceId);
 
             if (isAlreadySelected) {
-                // Если услуга уже выбрана, снимаем выделение и удаляем услугу из массива
                 $(this).removeClass('selected');
-                selectedServices = selectedServices.filter(service => service.id !== serviceId);  // Удаляем услугу из массива
+                selectedServices = selectedServices.filter(service => service.id !== serviceId);
             } else {
-                // Если услуга не была выбрана, добавляем её в массив
                 selectedServices.push({
                     id: serviceId,
                     name: serviceName,
-                    price: parseFloat(servicePrice.replace(' руб.', '')),  // Убираем символы и преобразуем в число
+                    price: parseFloat(servicePrice.replace(' руб.', '')),
                     duration: serviceDuration
                 });
-                $(this).addClass('selected');  // Добавляем класс selected
+                $(this).addClass('selected');
             }
 
-            // Логируем изменения
             console.log('Выбранные услуги:', selectedServices);
-
-            // Обновляем список выбранных услуг на шаге подтверждения
             updateConfirmationServicesList();
         });
+
 
 
 
@@ -517,6 +541,87 @@
             // Формируем строку с датой и временем в формате YYYY-MM-DD HH:mm:ss
             let appointmentDatetime = formattedDate + ' ' + selectedTime;
 
+
+            // Считаем общую стоимость выбранных услуг
+            let totalCost = selectedServices.reduce((acc, s) => acc + s.price, 0);
+
+            // Делаем GET-запрос для проверки количества предыдущих записей
+            $.ajax({
+                url: `/api/appointment/count`,
+                method: 'GET',
+                data: { tel: phone },
+                success: function(response) {
+                    let discountText = '';
+                    let discountedCost = totalCost;
+
+                    if (response.count % 5 === 0 && response.count > 0) {
+                        // Применяем скидку 10%
+                        discountedCost = Math.round(totalCost * 0.9);
+                        discountText = `<p><strong>🎉 Вам предоставлена скидка 10% как постоянному клиенту! 🎉</strong></p>`;
+                    }
+
+                    let servicesHtml = selectedServices.map(service =>
+                        `<li>${service.name}</li>`
+                    ).join('');
+
+                    let confirmationHtml = `
+                ${discountText}
+                <p><strong>Имя:</strong> ${name}</p>
+                <p><strong>Телефон:</strong> ${phone}</p>
+                <p><strong>Email:</strong> ${email}</p><br><br>
+                <p><strong>Комментарий:</strong> ${comment || '—'}</p>
+                <p><strong>Дата и время:</strong> ${selectedDate} в ${selectedTime}</p><br><br>
+                <p><strong>Услуги:</strong></p>
+                <ol class="acceptModal-list">${servicesHtml}</ol><br><br>
+                  ${discountedCost !== totalCost
+                                        ? `<p><strong>Стоимость со скидкой:</strong> ${discountedCost} руб.</p>`
+                                        : `<p><strong>Примерная стоимость:</strong> ${totalCost} руб.</p>`}
+                            `;
+
+                    $('#acceptModal-content').html(confirmationHtml);
+                    myModal.open('#acceptModal');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ошибка при получении количества записей:", error);
+                    notyf.error("Не удалось проверить скидку клиента");
+
+                    // Даже при ошибке всё равно отображаем модалку без скидки
+                    let servicesHtml = selectedServices.map(service =>
+                        `<li>${service.name}</li>`
+                    ).join('');
+
+                    let confirmationHtml = `
+                <p><strong>Имя:</strong> ${name}</p>
+                <p><strong>Телефон:</strong> ${phone}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Комментарий:</strong> ${comment || '—'}</p>
+                <p><strong>Дата и время:</strong> ${selectedDate} в ${selectedTime}</p>
+                <p><strong>Услуги:</strong></p>
+                <ol class="acceptModal-list">${servicesHtml}</ol>
+                <p><strong>Общая стоимость:</strong> ${totalCost} руб.</p>
+            `;
+
+                    $('#acceptModal-content').html(confirmationHtml);
+                    myModal.open('#acceptModal');
+                }
+            });
+        });
+        $("#acceptModal-back").on("click", function(event) {
+            myModal.open('#myModal')
+        });
+        $("#acceptModal-accept").on("click", function(event) {
+
+            // Получаем значения из полей формы
+            let name = $("#name").val();
+            let phone = $("#phone").val();
+            let email = $("#email").val();
+            let comment = $("#comment").val();
+
+            // Преобразуем выбранную дату в формат YYYY-MM-DD
+            let formattedDate = moment(selectedDate, "DD.MM.YYYY").format("YYYY-MM-DD");
+
+            // Формируем строку с датой и временем в формате YYYY-MM-DD HH:mm:ss
+            let appointmentDatetime = formattedDate + ' ' + selectedTime;
             let appointmentData = {
                 salon_id: selectedSalonId,
                 client_name: name,
@@ -527,7 +632,6 @@
                 appointment_datetime: appointmentDatetime, // Форматированная дата и время
                 services: selectedServices.map(service => service.id) // Массив с ID выбранных услуг
             };
-
             $.ajax({
                 url: '/api/services/appointment', // Роут для обработки запроса на создание записи
                 method: 'POST',

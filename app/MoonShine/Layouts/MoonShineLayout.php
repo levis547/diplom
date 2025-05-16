@@ -65,8 +65,6 @@ final class MoonShineLayout extends AppLayout
             MenuDivider::make(),
             MenuItem::make('Услуги', ServiceResource::class)->icon('clipboard'),
             MenuDivider::make(),
-            MenuItem::make('Категории услуг', ServicesCategoryResource::class),
-            MenuDivider::make(),
             MenuItem::make('Мастера', MasterResource::class)->icon('users'),
             MenuDivider::make(),
             MenuItem::make('Онлайн записи', AppointmentResource::class)->icon('clipboard-document-list')->badge(fn() => Appointment::countAppointments()),

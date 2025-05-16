@@ -20,6 +20,8 @@ Route::get('/team', [IndexController::class, 'team']);
 Route::get('/about', [IndexController::class, 'about']);
 Route::get('/privacy-policy', [IndexController::class, 'privacy_policy']);
 
+
+Route::get('/api/appointment/count',[ServicesController::class,'appointment_count']);
 Route::get('/api/salons',[ServicesController::class,'salons']);
 Route::get('/api/services',[ServicesController::class,'index']);
 Route::get('/api/services/master', [ServicesController::class, 'masters']);

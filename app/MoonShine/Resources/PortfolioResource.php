@@ -37,7 +37,7 @@ class PortfolioResource extends ModelResource
             Text::make('ФИО', 'full_name'),
             Text::make('E-mail', 'email'),
             Text::make('Описание', 'description'),
-
+            Text::make('Статус', 'status'),
         ];
     }
 
