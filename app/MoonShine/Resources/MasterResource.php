@@ -46,8 +46,9 @@ class MasterResource extends ModelResource
             Image::make('Аватар мастера', 'image_path'),
             BelongsTo::make('Адресс салона', 'salon', 'address',SalonResource::class)->required(),
             Text::make('Фамилия Имя Отчество', 'full_name'),
+            Relationships\HasMany::make('Записи', 'appointments')->relatedLink(),
             Text::make('Специализация', 'specialization'),
-            Relationships\BelongsToMany::make('Услуги', 'services', 'name', ServiceResource::class)->onlyCount(),
+            Relationships\BelongsToMany::make('Услуги', 'services', 'name', ServiceResource::class)->relatedLink(),
         ];
     }
 

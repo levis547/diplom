@@ -21,5 +21,9 @@ class Master extends Model
     {
         return $this->belongsTo(Salon::class);
     }
-
+// Новое отношение: все записи, где этот мастер участвует
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

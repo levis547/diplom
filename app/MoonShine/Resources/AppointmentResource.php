@@ -94,4 +94,11 @@ class AppointmentResource extends ModelResource
     {
         return [];
     }
+    protected function filters(): iterable
+    {
+        return [
+            BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class),
+            DateRange::make('Дата записи', 'appointment_datetime'),
+        ];
+    }
 }
