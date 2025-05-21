@@ -39,7 +39,7 @@ class AppointmentResource extends ModelResource
             Text::make('Телефон', 'phone')->required(),
             Text::make('E-mail', 'email'),
             Text::make('Комментарий', 'comment'),
-            BelongsToMany::make('Услуги', 'service', 'name')->onlyCount(),
+            BelongsToMany::make('Услуги', 'service', 'name')->relatedLink(),
             BelongsTo::make('Мастер', 'master', 'full_name',MasterResource::class)->required(),
             Date::make('Дата и время', 'appointment_datetime')
         ];
